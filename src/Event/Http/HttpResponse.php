@@ -32,6 +32,9 @@ final class HttpResponse
             if ($multiHeaders) {
                 // Make sure the values are always arrays
                 $headers[$name] = is_array($values) ? $values : [$values];
+            } else if ($name === 'Bref-Binary-Response') {
+                $base64Encoding = $values === 'binary';
+                unset($headers[$name]));
             } else {
                 // Make sure the values are never arrays
                 $headers[$name] = is_array($values) ? end($values) : $values;
@@ -69,6 +72,9 @@ final class HttpResponse
 
             if ($name === 'Set-Cookie') {
                 $cookies = is_array($values) ? $values : [$values];
+            } else if ($name === 'Bref-Binary-Response') {
+                $base64Encoding = $values === 'binary';
+                unset($headers[$name]));
             } else {
                 // Make sure the values are never arrays
                 // because API Gateway v2 does not support multi-value headers

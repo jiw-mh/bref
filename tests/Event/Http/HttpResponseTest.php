@@ -177,4 +177,26 @@ class HttpResponseTest extends TestCase
             'body' => '',
         ], $response->toApiGatewayFormatV2());
     }
+
+    public function test_binary_header()
+    {
+        $response = new HttpResponse('', [
+            'bref-output': 'binary',
+            'body': 'hi',
+        ]);
+
+        self::assertEquals([
+            'isBase64Encoded' => true,
+            'statusCode' => 200,
+            'headers' => new stdClass,
+            'body': 'aGk=',
+        ], $response->toApiGatewayFormat());
+
+        self::assertEquals([
+            'isBase64Encoded' => true,
+            'statusCode' => 200,
+            'headers' => new stdClass,
+            'body' => 'aGk='
+        ], $response->toApiGatewayFormatV2());
+    }
 }
